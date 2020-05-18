@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'otomoto.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'otomoto',
+        'PORT': '5432',
     }
 }
 
