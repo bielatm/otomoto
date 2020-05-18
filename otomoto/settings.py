@@ -25,7 +25,7 @@ SECRET_KEY = '20f$$ba+g9^kchw$dg-(0%!gn($i3$_-5$acv9pj+diq$jin&k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['otomoto-app.herokuapp.com']
 
 
 # Application definition
