@@ -4,4 +4,5 @@ import requests
 class GetOtoMotoPage():
 
     def execute(self, url):
-        return requests.get(url)
+        response = requests.get(url)
+        return response if response.ok else None
