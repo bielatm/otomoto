@@ -6,7 +6,7 @@ from otomoto_app.services import GetOtoMotoPage
 class GetOtoMotoPageTest(TestCase):
 
     @patch('otomoto_app.services.requests.get')
-    def test_request_response(self, mock_get):
+    def test_request_response_ok(self, mock_get):
         with open('otomoto_app/tests/html_otomoto.html', 'r') as file:
             content = file.read().replace('\n', '')
 
@@ -15,3 +15,10 @@ class GetOtoMotoPageTest(TestCase):
         response = service.execute(url='https://www.otomoto.pl/osobowe/')
         self.assertTrue(response)
         self.assertEqual(response.content, content)
+
+    @patch('otomoto_app.services.requests.get')
+    def test_request_response_not_ok(self, mock_get):
+        mock_get.return_value = Mock(ok=False)
+        service = GetOtoMotoPage()
+        response = service.execute(url='https://www.otomoto.pl/osobowe/')
+        self.assertIsNone(response)
