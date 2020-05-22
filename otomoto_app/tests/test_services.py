@@ -1,25 +1,25 @@
+import responses
 from unittest import TestCase
-from unittest.mock import Mock, patch
 from otomoto_app.services import GetOtoMotoPage
 from otomoto_app.constants import BASE_URL
 
 
 class GetOtoMotoPageTest(TestCase):
 
-    @patch('otomoto_app.services.requests.get')
-    def test_request_response_ok(self, mock_get):
+    @responses.activate
+    def test_request_response_ok(self):
         with open('otomoto_app/tests/html_otomoto.html', 'r') as file:
             content = file.read().replace('\n', '')
 
-        mock_get.return_value = Mock(ok=True, content=content)
+        responses.add(responses.GET, BASE_URL, body=content, status=200)
         service = GetOtoMotoPage()
         response = service.execute(url=BASE_URL)
-        self.assertTrue(response)
-        self.assertEqual(response.content, content)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.text, content)
 
-    @patch('otomoto_app.services.requests.get')
-    def test_request_response_not_ok(self, mock_get):
-        mock_get.return_value = Mock(ok=False)
+    @responses.activate
+    def test_request_response_not_ok(self):
+        responses.add(responses.GET, BASE_URL, status=404)
         service = GetOtoMotoPage()
         response = service.execute(url=BASE_URL)
         self.assertIsNone(response)
